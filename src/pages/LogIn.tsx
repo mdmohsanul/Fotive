@@ -1,24 +1,14 @@
-import { useGoogleLogin } from "@react-oauth/google"
-
+import GoogleProvider from "../components/GoogleProvider"
+import  {GoogleOAuthProvider} from "@react-oauth/google"
 const LogIn = () => {
 
-    const responseGoogle = async(authResult) => {
-        try{
-
-        }catch(error){
-            console.log(error)
-        }
-    }
-    // whenever we click on google auth we have to call one hook useGoogleLogin
-    const googleLogin = useGoogleLogin({
-        onSuccess:() => {},
-        onError:() => {},
-        flow:"auth-code"
-    }) 
   return (
     <>
     <h1>Login Page</h1>
-    <button onClick={googleLogin}>Google Login</button>
+    
+<GoogleOAuthProvider clientId="167949128032-rp6gd2n596a0r7fhhpbhukj06ld8ec9q.apps.googleusercontent.com">
+<GoogleProvider/>
+</GoogleOAuthProvider>
     </>
   )
 }
