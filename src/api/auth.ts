@@ -11,5 +11,6 @@ export const googleAuth = (code:string) => api.get(`/google?code=${code}`)
 export const emailLogin = (data: { email: string; password: string }) =>
   api.post("/login", data);
 
+export const checkUserAuth = () => api.get("/current-user");
 
 export const logout = () => api.post("/logout");

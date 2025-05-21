@@ -7,7 +7,7 @@ const Dashboard = () => {
     <>
       <h1>Dashboard</h1>
       <h2>Hi, {user?.userName}</h2>
-      <img src={user?.avatar} alt="" />
+      <img src={user?.avatar} alt="userImage" width={"100px"} />
     </>
   );
 };
