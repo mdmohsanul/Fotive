@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import type { CodeResponse } from "@react-oauth/google";
-
-
+import { Button } from "@/components/ui/button";
+import { ImGooglePlus3 } from "react-icons/im";
 import { loginWithGoogle } from "../features/auth/authThunks";
 import { useAppDispatch } from "../app/store";
 
@@ -55,7 +55,14 @@ const GoogleProvider: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => googleLogin()}>Google Login</button>
+      <Button
+        onClick={() => googleLogin()}
+        className="h-12 w-64 rounded-full text-md cursor-pointer bg-white text-gray-900 border border-gray-800 hover:bg-gray-900 hover:text-white transition-colors duration-350"
+      >
+        <ImGooglePlus3 size={35} className="size-7 " /> Sign in with Google
+      </Button>
+
+      {/* <button onClick={() => googleLogin()}>Google Login</button> */}
       {err && <p style={{ color: "red" }}>{err}</p>}
     </div>
   );
