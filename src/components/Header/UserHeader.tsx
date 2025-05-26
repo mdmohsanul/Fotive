@@ -1,6 +1,8 @@
-import { useAppSelector } from "@/app/store";
+import { useAppDispatch, useAppSelector } from "@/app/store";
 import Fotive from "/fotive-logo-dark-small2.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "@/features/auth/authThunks";
 
 const UserHeader = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -9,12 +11,21 @@ const UserHeader = () => {
   const hoverHandler = () => {
     setShowDetails(true);
   };
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    dispatch(logoutUser()).then(() => {
+      navigate("/login");
+    });
+  };
   return (
     <>
       <div className="fixed top-0 w-full">
-        <div className="max-w-screen mx-auto bg-white shadow-xl">
+        <div className="max-w-screen mx-auto  bg-gray-100">
           <div className="flex items-center justify-between py-2 px-7">
             <img src={Fotive} alt="logo" loading="lazy" className="" />
+            <button onClick={logoutHandler}>Logout</button>
             <div className="relative">
               <button
                 onMouseOver={hoverHandler}

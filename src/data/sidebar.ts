@@ -10,22 +10,22 @@ type SidebarItem = {
 }
 
 export const sidebar: SidebarItem[] = [
-    {
-     id:1,
-     title:"Photos",
-     linkTo:"/photos",
-     icon:MdOutlinePhotoSizeSelectActual
-    },
-    {
-        id:2,
-        title:"Albums",
-        linkTo:"/albums",
-        icon:MdOutlinePhotoAlbum
-       },
-       {
-        id:3,
-        title:"Recently Added",
-        linkTo:"/recentlyAdded",
-        icon:FaRegClock
-       }
-]
+  {
+    id: 1,
+    title: "Photos",
+    linkTo: "/dashboard/photos",
+    icon: MdOutlinePhotoSizeSelectActual,
+  },
+  {
+    id: 2,
+    title: "Albums",
+    linkTo: "/dashboard/albums",
+    icon: MdOutlinePhotoAlbum,
+  },
+  {
+    id: 3,
+    title: "Recently Added",
+    linkTo: "/dashboard/recentlyAdded",
+    icon: FaRegClock,
+  },
+];

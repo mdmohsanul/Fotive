@@ -31,7 +31,7 @@ export const logoutUser = createAsyncThunk(
   "user/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.post("logout");
+      const res = await api.post("/users/logout");
       return res.data;
     } catch (error) {
       return rejectWithValue(error || "Unauthorized");
@@ -43,7 +43,7 @@ export const emailLogin = createAsyncThunk(
   "auth/loginWithEmail",
   async (data: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await api.post("/login", data);
+      const response = await api.post("/users/login", data);
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error || "Unauthorized");
@@ -58,7 +58,7 @@ export const registerUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await api.post("/signup", data);
+      const response = await api.post("/users/signup", data);
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error || "Unauthorized");

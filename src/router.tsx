@@ -4,10 +4,15 @@ import App from "./App";
 
 import LogIn from "./pages/LogIn";
 
-import Dashboard from "./pages/Dashboard";
+
 import PageNotFound from "./pages/Page-Not-Found";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SignUp from "./pages/SignUp";
+import SignUp from "./pages/Signup";
+import Dashboard_Layout from "./pages/Dashboard_Layout";
+import Photos from "./pages/Photos";
+import Albums from "./pages/Albums";
+import RecentlyAdded from "./pages/RecentlyAdded";
+import Album_Images from "./pages/Album_Images";
 
 const appRouter = createBrowserRouter([
   {
@@ -21,9 +26,16 @@ const appRouter = createBrowserRouter([
         path: "/dashboard",
         element: (
           <ProtectedRoute>
-            <Dashboard />
+            <Dashboard_Layout />
           </ProtectedRoute>
         ),
+        children: [
+          { path: "/dashboard/photos", element: <Photos /> },
+          { path: "/dashboard/albums", element: <Albums /> },
+          { path: "/dashboard/albums/:albumId", element: <Album_Images /> },
+
+          { path: "/dashboard/recentlyAdded", element: <RecentlyAdded /> },
+        ],
       },
       { path: "*", element: <PageNotFound /> },
     ],

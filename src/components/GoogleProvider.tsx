@@ -57,7 +57,7 @@ const GoogleProvider: React.FC = () => {
     <div>
       <Button
         onClick={() => googleLogin()}
-        className="h-12 w-64 rounded-full text-md cursor-pointer bg-white text-gray-900 border border-gray-800 hover:bg-gray-900 hover:text-white transition-colors duration-350"
+        className="h-12 w-full rounded-full text-md cursor-pointer bg-white text-gray-900 border border-gray-800 hover:bg-gray-900 hover:text-white transition-colors duration-350"
       >
         <ImGooglePlus3 size={35} className="size-7 " /> Sign in with Google
       </Button>
