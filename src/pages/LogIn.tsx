@@ -34,7 +34,7 @@ const LogIn = () => {
             <GoogleProvider />
           </GoogleOAuthProvider>
         </div>
-        <p className="text-center">
+        <p className="text-center pb-5">
           <span>New to Fotive? </span>
           <Link
             to="/signup"

@@ -4,12 +4,12 @@ import { Outlet } from "react-router-dom"
 
 const Dashboard_Layout = () => {
   return (
-<div className="relative bg-gray-100">
- <UserHeader/>
- <Sidebar/>
- <Outlet/>
-
-</div>  )
+    <div className="relative bg-[#f0f4f9]">
+      <UserHeader />
+      <Sidebar />
+      <Outlet />
+    </div>
+  );
 }
 
 export default Dashboard_Layout
