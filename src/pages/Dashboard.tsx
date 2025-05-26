@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../app/store";
+import { useAppDispatch } from "../app/store";
 import { logoutUser } from "../features/auth/authThunks";
+import UserHeader from "@/components/Header/UserHeader";
+import Sidebar from "@/components/Sidebar";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.auth);
 
   const logoutHandler = () => {
     dispatch(logoutUser()).then(() => {
@@ -14,9 +15,10 @@ const Dashboard = () => {
   };
   return (
     <>
-      <h1>Dashboard</h1>
-      <h2>Hi, {user?.userName}</h2>
-      <img src={user?.avatar} alt="userImage" width={"100px"} />
+      <div className="relative">
+        <UserHeader />
+      </div>
+      <Sidebar />
       <button onClick={logoutHandler}>Logout</button>
     </>
   );
