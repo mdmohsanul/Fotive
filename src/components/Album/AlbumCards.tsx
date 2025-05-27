@@ -1,24 +1,28 @@
-import { useAppSelector } from "@/app/store";
+import { useAppDispatch, useAppSelector } from "@/app/store";
 
 import { format } from "date-fns";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { deleteAlbum } from "@/features/album/albumThunk";
 
 type Album = {
   albumId: string;
   name: string;
   createdAt: string;
+  _id: string;
 };
 
 const AlbumCards = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { albums } = useAppSelector((state) => state.album);
+
   const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
-  const getDate = (inputDate: string): string => {
-    const dateFormat = format(inputDate, "dd-MM-yyyy");
-    return dateFormat;
-  };
+  // const getDate = (inputDate: string): string => {
+  //   const dateFormat = format(inputDate, "yyyy-MM-dd");
+  //   return dateFormat;
+  // };
   const handleCardClick = (albumId: string) => {
     navigate(`/dashboard/albums/${albumId}`);
   };
@@ -26,12 +30,15 @@ const AlbumCards = () => {
     e.stopPropagation();
     setActiveAlbumId((prev) => (prev === albumId ? null : albumId));
   };
+  const deleteHandler = (albumId: string) => {
+    dispatch(deleteAlbum(albumId));
+  };
   return (
     <>
       <div className="flex flex-wrap mx-8 gap-10">
         {albums?.map((item: Album) => (
           <div
-            key={item?.albumId}
+            key={item?._id}
             className="relative cursor-pointer"
             onClick={() => handleCardClick(item.albumId)}
           >
@@ -39,9 +46,7 @@ const AlbumCards = () => {
               <div className="bg-gray-200 w-56 h-56 rounded-lg"></div>
               <div className="p-2">
                 <p className="text-gray-800 font-medium">{item.name}</p>
-                <p className="text-sm text-gray-600">
-                  {getDate(item.createdAt)}
-                </p>
+                <p className="text-sm text-gray-600">{item?.createdAt}</p>
               </div>
             </div>
             <button
@@ -56,7 +61,10 @@ const AlbumCards = () => {
                 className="absolute top-20 right-5 bg-white shadow-lg p-2 rounded z-10 text-sm"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button className="block w-full text-left px-2 py-1 hover:bg-gray-100">
+                <button
+                  className="block w-full text-left px-2 py-1 hover:bg-gray-100"
+                  onClick={() => deleteHandler(item?.albumId)}
+                >
                   Rename
                 </button>
 

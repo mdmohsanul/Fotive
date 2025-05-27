@@ -27,8 +27,8 @@ const UserHeader = () => {
   };
   return (
     <>
-      <div className="fixed top-0 w-full">
-        <div className="max-w-screen mx-auto  bg-gray-100">
+      <div className="fixed top-0 w-full z-30">
+        <div className="max-w-screen mx-auto  backdrop-blur-2xl">
           <div className="flex items-center justify-between py-2 px-7">
             <img src={Fotive} alt="logo" loading="lazy" className="" />
             <div className="relative">
