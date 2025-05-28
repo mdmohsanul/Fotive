@@ -12,7 +12,7 @@ const Sidebar = () => {
               <li key={item.id} className="pb-9">
                 <Link
                   to={item.linkTo}
-                  className="flex items-center gap-4 text-[16px] text-[#444746] font-semibold"
+                  className="flex items-center gap-4 text-[16px] text-[#444746] font-medium"
                 >
                   {<item.icon size={20} />} {item.title}
                 </Link>

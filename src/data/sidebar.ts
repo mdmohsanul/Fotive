@@ -2,18 +2,19 @@ import type { IconType } from "react-icons/lib";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { MdOutlinePhotoAlbum } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa6";
 type SidebarItem = {
-    id:number;
-    title:string;
-    linkTo:string;
-    icon:IconType
-}
+  id: number;
+  title: string;
+  linkTo: string;
+  icon: IconType;
+};
 
 export const sidebar: SidebarItem[] = [
   {
     id: 1,
     title: "Photos",
-    linkTo: "/dashboard/photos",
+    linkTo: "/dashboard",
     icon: MdOutlinePhotoSizeSelectActual,
   },
   {
@@ -27,5 +28,11 @@ export const sidebar: SidebarItem[] = [
     title: "Recently Added",
     linkTo: "/dashboard/recentlyAdded",
     icon: FaRegClock,
+  },
+  {
+    id: 4,
+    title: "Favorites",
+    linkTo: "/dashboard/favorites",
+    icon: FaStar,
   },
 ];

@@ -3,28 +3,43 @@ import { useForm } from "react-hook-form"
 import type{  SubmitHandler } from "react-hook-form"
 import { BiError } from "react-icons/bi";
 import { useAppDispatch } from "@/app/store";
-import { createAlbum, fetchAlbums } from "@/features/album/albumThunk";
+import {
+  createAlbum,
+  fetchAlbums,
+  updateData,
+} from "@/features/album/albumThunk";
 import { useState } from "react";
-
-type AlbumProps = {
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
 export interface IFormInput {
   name: string;
   description: string;
+  albumId?: string;
 }
-const AlbumForm: React.FC<AlbumProps> = ({ setOpenModal }) => {
+type AlbumProps = {
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  existingData?: IFormInput;
+};
+const AlbumForm: React.FC<AlbumProps> = ({ setOpenModal, existingData }) => {
   const dispatch = useAppDispatch();
   const [err, setErr] = useState<string | undefined>();
+  console.log(existingData);
+  const albumId = existingData?.albumId;
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<IFormInput>();
+  } = useForm<IFormInput>({ defaultValues: existingData });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
+      if (existingData) {
+        await dispatch(updateData({ data, albumId })).unwrap();
+        dispatch(fetchAlbums());
+        setOpenModal(false); // close modal on success
+        return;
+      }
+      console.log("fcds");
+
       await dispatch(createAlbum(data)).unwrap();
       dispatch(fetchAlbums());
 
@@ -41,7 +56,9 @@ const AlbumForm: React.FC<AlbumProps> = ({ setOpenModal }) => {
   return (
     <div className="border-s-2 border-teal-900 p-5 min-w-xl bg-white">
       <div className="flex items-center justify-between pb-4">
-        <h1 className="text-2xl text-gray-800">Create Album</h1>
+        <h1 className="text-2xl text-gray-800">
+          {existingData ? "Update Album" : "Create Album"}
+        </h1>
         <button onClick={handleClick} className="text-gray-700 cursor-pointer">
           <RxCrossCircled size={27} />
         </button>
@@ -93,10 +110,20 @@ const AlbumForm: React.FC<AlbumProps> = ({ setOpenModal }) => {
           )}
         </div>
 
+        {/* conditionally show the submit button */}
+
         <input
           type="submit"
           disabled={isSubmitting}
-          value={isSubmitting ? "Creating..." : "Create Album"}
+          value={
+            existingData
+              ? isSubmitting
+                ? "Updating...."
+                : "Update "
+              : isSubmitting
+              ? "Creating..."
+              : "Create "
+          }
           className="bg-gray-600 text-white py-2 px-3 rounded-md cursor-pointer mt-5 disabled:opacity-50 disabled:cursor-not-allowed"
         />
       </form>

@@ -14,3 +14,46 @@ export const fetchImages = createAsyncThunk<Image[] , string | undefined>("image
             );
           }
 })
+
+export const fetchAllImages = createAsyncThunk<Image[]>(
+  "image/fetchAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/albums/images`);
+      return response.data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data || "Failed to fetch albums");
+    }
+  }
+);
+
+export const uploadImage = createAsyncThunk<
+  Image,
+  { formData: FormData; albumId: string | undefined }
+>("image/upload", async ({ formData, albumId }, { rejectWithValue }) => {
+  try {
+    const response = await api.post(`/albums/${albumId}/images`, formData, {
+      headers: {
+        "Content-Type": "multipart/upload",
+      },
+    });
+    return response.data.data;
+  } catch (error) {
+    const err = error as AxiosError;
+    return rejectWithValue(err.response?.data || "Failed to fetch albums");
+  }
+});
+
+export const deleteImage = createAsyncThunk(
+  "image/delete",
+  async (imageId, { rejectWithValue }) => {
+    try {
+      const response = await api.delete(`/albums/${imageId}/images`);
+      return response.data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data || "Failed to fetch albums");
+    }
+  }
+);

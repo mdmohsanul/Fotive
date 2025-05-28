@@ -1,5 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import Fotive from "/fotive-logo-dark-small.png";
+// import Fotive from "/fotive-logo-dark-small.png";
+import Fotive from "/test.png";
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "@/features/auth/authThunks";
@@ -29,7 +31,7 @@ const UserHeader = () => {
     <>
       <div className="fixed top-0 w-full z-30">
         <div className="max-w-screen mx-auto  backdrop-blur-2xl">
-          <div className="flex items-center justify-between py-2 px-7">
+          <div className="flex items-center justify-between py-1 px-7">
             <img src={Fotive} alt="logo" loading="lazy" className="" />
             <div className="relative">
               <button
@@ -42,7 +44,7 @@ const UserHeader = () => {
                   src={user?.avatar}
                   alt="user_image"
                   loading="lazy"
-                  className="h-12 w-12"
+                  className="h-10 w-10"
                 />
               </button>
               {showDetails && (
@@ -61,7 +63,7 @@ const UserHeader = () => {
                       src={user?.avatar}
                       alt="user_image"
                       loading="lazy"
-                      className="h-24 w-24"
+                      className="h-24 w-24 "
                     />
                     <span className="text-stone-950 text-xl">
                       Hi, {user?.userName.toUpperCase()}!

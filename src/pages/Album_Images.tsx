@@ -1,65 +1,40 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import type { Image } from "@/features/image/imageSlice";
+import ImageForm from "@/components/Images/ImageForm";
+import ImageHeader from "@/components/Images/ImageHeader";
+import ImagesCards from "@/components/Images/ImagesCards";
 import { fetchImages } from "@/features/image/imageThunks";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
-
+import { useParams } from "react-router-dom";
 
 const Album_Images = () => {
-    const {albumId} =  useParams();
-    const dispatch = useAppDispatch()
-    const {images } = useAppSelector(state=>state.image)
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { albumId } = useParams();
+  const dispatch = useAppDispatch();
+  const { albums } = useAppSelector((state) => state.album);
+  const [openImageForm, setOpenImageForm] = useState(false);
+  const findAlbum = albums.find((album) => album.albumId === albumId);
 
-    console.log(albumId)
-    useEffect(() => {
- dispatch(fetchImages(albumId))
-    },[dispatch,albumId])
-    console.log(images)
-      return (
-        <main className="pl-[258px] pt-[75px]  bg-white">
-          <div className="px-7 py-4">
-            <h1 className="text-2xl text-gray-800">Images</h1>
-            <div className="flex flex-wrap gap-4">
-              {images.map((image: Image, idx) => (
-                <div
-                  key={image.imageId}
-                  className={`w-72 h-72 cursor-pointer ${
-                    idx % 2 === 0 ? "h-72" : "h-96"
-                  }`}
-                  onClick={() => setSelectedImage(image.imageUrl)}
-                >
-                  <img
-                    src={image.imageUrl}
-                    alt=""
-                    loading="lazy"
-                    className="object-cover w-full h-full rounded-md"
-                  />
-                </div>
-              ))}
-            </div>
-            {selectedImage && (
-              <div
-                className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-                onClick={() => setSelectedImage(null)} // close on backdrop click
-              >
-                <img
-                  src={selectedImage}
-                  alt="Preview"
-                  className="max-w-full max-h-full rounded-lg shadow-xl"
-                  onClick={(e) => e.stopPropagation()} // prevent close when clicking image
-                />
-                <button
-                  className="absolute top-4 right-4 text-white text-3xl font-bold"
-                  onClick={() => setSelectedImage(null)}
-                >
-                  &times;
-                </button>
-              </div>
-            )}
-          </div>
-        </main>
-      );
-}
+  console.log(findAlbum);
+  useEffect(() => {
+    dispatch(fetchImages(albumId));
+  }, [dispatch, albumId]);
 
-export default Album_Images
+  return (
+    <main className="relative">
+      <ImageHeader setOpenImageForm={setOpenImageForm} />
+      <div className="max-w-5xl mx-auto pt-20">
+        <h1 className="text-4xl text-gray-800 py-6">{findAlbum?.name}</h1>
+        <ImagesCards />
+      </div>
+      {openImageForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-black/50 min-h-screen ">
+          <ImageForm
+            setOpenImageForm={setOpenImageForm}
+            albumId={findAlbum?.albumId}
+          />
+        </div>
+      )}
+    </main>
+  );
+};
+
+export default Album_Images;

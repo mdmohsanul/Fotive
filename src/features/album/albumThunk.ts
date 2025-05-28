@@ -12,9 +12,7 @@ export interface Album {
   createdAt: string;
   _id: string;
 }
-type AlbumId = {
-  albumId: string;
-};
+
 export const createAlbum = createAsyncThunk<Album, IFormInput>(
   "album/createAlbum",
   async (data, { rejectWithValue }) => {
@@ -53,11 +51,11 @@ export const fetchAlbums = createAsyncThunk(
   }
 );
 
-export const deleteAlbum = createAsyncThunk<AlbumId>(
+export const deleteAlbum = createAsyncThunk<Album, string>(
   "album/deleteAlbum",
   async (albumId, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/albums/${albumId}`);
+      const response = await api.delete(`/albums/${albumId}`);
       return response.data.data;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
@@ -70,3 +68,26 @@ export const deleteAlbum = createAsyncThunk<AlbumId>(
     }
   }
 );
+type UpdateData = {
+  name: string;
+  description: string;
+};
+export const updateData = createAsyncThunk<
+  Album,
+  { data: UpdateData; albumId: string | undefined }
+>("album/update", async ({ data, albumId }, { rejectWithValue }) => {
+  try {
+    console.log(data);
+    const response = await api.patch(`/albums/${albumId}`, data);
+    console.log(response);
+    return response.data.data;
+  } catch (err) {
+    const error = err as AxiosError<{ message: string }>;
+
+    if (error.response && error.response.data?.message) {
+      return rejectWithValue(error.response.data.message);
+    }
+
+    return rejectWithValue("Unexpected error");
+  }
+});

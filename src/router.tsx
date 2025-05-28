@@ -1,10 +1,6 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-
 import LogIn from "./pages/LogIn";
-
-
 import PageNotFound from "./pages/Page-Not-Found";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./pages/Signup";
@@ -13,6 +9,7 @@ import Photos from "./pages/Photos";
 import Albums from "./pages/Albums";
 import RecentlyAdded from "./pages/RecentlyAdded";
 import Album_Images from "./pages/Album_Images";
+import PhotoDisplay from "./components/Photos/PhotoDisplay";
 
 const appRouter = createBrowserRouter([
   {
@@ -30,10 +27,10 @@ const appRouter = createBrowserRouter([
           </ProtectedRoute>
         ),
         children: [
-          { path: "/dashboard/photos", element: <Photos /> },
+          { path: "/dashboard", element: <Photos /> },
+          { path: "/dashboard/photos/:imageId", element: <PhotoDisplay /> },
           { path: "/dashboard/albums", element: <Albums /> },
           { path: "/dashboard/albums/:albumId", element: <Album_Images /> },
-
           { path: "/dashboard/recentlyAdded", element: <RecentlyAdded /> },
         ],
       },
