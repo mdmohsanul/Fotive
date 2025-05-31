@@ -1,0 +1,13 @@
+
+
+const Favorites = () => {
+  return (
+    <main className="pl-[258px] pt-[75px]  ">
+      <div className="bg-white rounded-lg mr-3 min-h-screen">
+        <h1 className="text-4xl p-6">Favorites</h1>
+</div>
+</main>
+  )
+}
+
+export default Favorites

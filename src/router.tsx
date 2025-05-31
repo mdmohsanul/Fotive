@@ -10,6 +10,7 @@ import Albums from "./pages/Albums";
 import RecentlyAdded from "./pages/RecentlyAdded";
 import Album_Images from "./pages/Album_Images";
 import PhotoDisplay from "./components/Photos/PhotoDisplay";
+import Favorites from "./pages/Favorites";
 
 const appRouter = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const appRouter = createBrowserRouter([
           { path: "/dashboard/albums", element: <Albums /> },
           { path: "/dashboard/albums/:albumId", element: <Album_Images /> },
           { path: "/dashboard/recentlyAdded", element: <RecentlyAdded /> },
+          { path: "/dashboard/favorites", element: <Favorites /> },
         ],
       },
       { path: "*", element: <PageNotFound /> },

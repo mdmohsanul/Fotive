@@ -13,35 +13,35 @@ const AlbumFilter = () => {
     }
   };
   return (
-    <div className="px-7 py-5">
-          <button
-            className={`${btn} ${
-              selectedItems.includes("all") ? "border-none bg-gray-200" : ""
-            }`}
-            onClick={() => selectHandler("all")}
-          >
-            All
-          </button>
-          <button
-            className={`${btn} ${
-              selectedItems[0] === "myAlbums" ? "border-none bg-gray-200" : ""
-            }`}
-            onClick={() => selectHandler("myAlbums")}
-          >
-            My albums
-          </button>
-          <button
-            className={`${btn} ${
-              selectedItems[0] === "shared" ? "border-none bg-gray-200" : ""
-            }`}
-            onClick={() => selectHandler("shared")}
-          >
-            Shared with me
-          </button>
+    <div className="px-7 py-7">
+      <button
+        className={`${btn} ${
+          selectedItems.includes("all") ? "border-none bg-gray-200" : ""
+        }`}
+        onClick={() => selectHandler("all")}
+      >
+        All
+      </button>
+      <button
+        className={`${btn} ${
+          selectedItems[0] === "myAlbums" ? "border-none bg-gray-200" : ""
+        }`}
+        onClick={() => selectHandler("myAlbums")}
+      >
+        My albums
+      </button>
+      <button
+        className={`${btn} ${
+          selectedItems[0] === "shared" ? "border-none bg-gray-200" : ""
+        }`}
+        onClick={() => selectHandler("shared")}
+      >
+        Shared with me
+      </button>
 
-          <p>{JSON.stringify(selectedItems)}</p>
-        </div>
-  )
+      {/* <p>{JSON.stringify(selectedItems)}</p> */}
+    </div>
+  );
 }
 
 export default AlbumFilter
