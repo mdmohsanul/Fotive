@@ -2,8 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import type { Image } from "@/features/image/imageSlice";
 import { fetchAllImages } from "@/features/image/imageThunks";
 import { useEffect } from "react";
-
-import PhotoCards from "@/components/Photos/PhotoCards";
+import ImageCards from "@/components/Photos/ImageCards";
 
 const Photos = () => {
   const { allImages } = useAppSelector((state) => state.image);
@@ -23,7 +22,7 @@ const Photos = () => {
 
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 px-5 space-y-4 pt-8">
           {allImages.map((image: Image) => (
-            <PhotoCards image={image} key={image.imageId} />
+            <ImageCards image={image} key={image.imageId} />
           ))}
         </div>
       </div>

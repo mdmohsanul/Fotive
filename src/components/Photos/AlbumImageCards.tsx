@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 type PhotoDisplayProps = {
   image: Image;
 };
-const PhotoCards: React.FC<PhotoDisplayProps> = ({ image }) => {
+const AlbumImageCards = ({ image }:PhotoDisplayProps) => {
   return (
     <Link
-      to={`/dashboard/photos/${image.imageId}`}
+      to={`/dashboard/albums/${image.imageId}`}
       key={image.imageId}
       className="break-inside-avoid cursor-pointer"
     >
@@ -19,6 +19,6 @@ const PhotoCards: React.FC<PhotoDisplayProps> = ({ image }) => {
       />
     </Link>
   );
-};
+}
 
-export default PhotoCards;
+export default AlbumImageCards

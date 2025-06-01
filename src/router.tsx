@@ -9,7 +9,7 @@ import Photos from "./pages/Photos";
 import Albums from "./pages/Albums";
 import RecentlyAdded from "./pages/RecentlyAdded";
 import Album_Images from "./pages/Album_Images";
-import PhotoDisplay from "./components/Photos/PhotoDisplay";
+import PhotoDisplay from "./components/Photos/ImageDisplay";
 import Favorites from "./pages/Favorites";
 
 const appRouter = createBrowserRouter([
@@ -29,11 +29,17 @@ const appRouter = createBrowserRouter([
         ),
         children: [
           { path: "/dashboard", element: <Photos /> },
+          { path: "/dashboard/photos", element: <Photos /> },
           { path: "/dashboard/photos/:imageId", element: <PhotoDisplay /> },
           { path: "/dashboard/albums", element: <Albums /> },
-          { path: "/dashboard/albums/:albumId", element: <Album_Images /> },
-          { path: "/dashboard/recentlyAdded", element: <RecentlyAdded /> },
+          { path: "/dashboard/album/:albumId", element: <Album_Images /> },
+          { path: "/dashboard/albums/:imageId", element: <PhotoDisplay /> },
           { path: "/dashboard/favorites", element: <Favorites /> },
+          {
+            path: "/dashboard/photos/favorites/:imageId",
+            element: <PhotoDisplay />,
+          },
+          { path: "/dashboard/recentlyAdded", element: <RecentlyAdded /> },
         ],
       },
       { path: "*", element: <PageNotFound /> },

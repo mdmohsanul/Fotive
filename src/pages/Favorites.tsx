@@ -2,19 +2,20 @@ import { useEffect } from "react";
 import favorites from "/favorites.webp";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { fetchfavoritesByUser } from "@/features/image/imageThunks";
-import PhotoCards from "@/components/Photos/PhotoCards";
 import type { Image } from "@/features/image/imageSlice";
+import ImageCards from "@/components/Photos/ImageCards";
 
 const Favorites = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const { favImages } = useAppSelector((state) => state.image);
-  console.log(favImages);
+
   useEffect(() => {
     if (user) {
       dispatch(fetchfavoritesByUser(user?.userId));
     }
   }, [dispatch, user]);
+
   return (
     <main className="pl-[258px] pt-[75px]  ">
       <div className="bg-white rounded-lg mr-3 min-h-screen">
@@ -31,7 +32,7 @@ const Favorites = () => {
         )}
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 px-5 space-y-4 pt-8">
           {favImages?.map((image: Image) => (
-            <PhotoCards image={image} key={image.imageId} />
+            <ImageCards image={image} key={image.imageId} />
           ))}
         </div>
       </div>

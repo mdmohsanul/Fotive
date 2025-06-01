@@ -27,7 +27,7 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
   };
 
   const handleCardClick = (albumId: string) => {
-    navigate(`/dashboard/albums/${albumId}`);
+    navigate(`/dashboard/album/${albumId}`);
   };
 
   const optionHandler = (e: React.MouseEvent, albumId: string) => {

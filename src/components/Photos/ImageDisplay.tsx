@@ -3,7 +3,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { LuInfo } from "react-icons/lu";
 import { FaRegStar } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { useState } from "react";
 import ImageInfo from "./ImageInfo";
@@ -12,9 +12,11 @@ import {
   updateFavoriteImage,
 } from "@/features/image/imageThunks";
 
-const PhotoDisplay = () => {
-  const location = useLocation();
-  console.log(location.pathname);
+const ImageDisplay = () => {
+  // const location = useLocation();
+  // console.log(location.pathname.split("/").slice(-2)[0]);
+  // const backPath = location.pathname.split("/").slice(-2)[0];
+const navigate = useNavigate()
   const { imageId } = useParams();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
@@ -49,12 +51,13 @@ const PhotoDisplay = () => {
           <div className="absolute top-0 left-0 w-full h-16   text-white text-2xl font-semibold bg-black bg-opacity-60 backdrop-blur">
             <div className="flex items-center justify-between px-6 py-4 bg-black/30 backdrop-blur-md text-white shadow-md rounded-md">
               {/* Back Button */}
-              <Link
-                to="/dashboard"
+              {/* <Link
+                to={`/dashboard/${backPath}`}
                 className="p-2 rounded-full hover:bg-white/20 transition"
               >
                 <FaArrowLeft size={20} />
-              </Link>
+              </Link> */}
+              <button    className="p-2 rounded-full hover:bg-white/20 transition" onClick={() => navigate(-1)}><FaArrowLeft size={20} /></button>
 
               {/* Action Buttons */}
               <div className="flex gap-4">
@@ -95,4 +98,4 @@ const PhotoDisplay = () => {
   );
 };
 
-export default PhotoDisplay;
+export default ImageDisplay;
