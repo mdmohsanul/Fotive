@@ -3,6 +3,7 @@ import {
   fetchAllImages,
   fetchfavoritesByUser,
   fetchImages,
+  updateFavoriteImage,
   uploadImage,
 } from "./imageThunks";
 
@@ -84,6 +85,22 @@ const imageSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchfavoritesByUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateFavoriteImage.fulfilled, (state, action) => {
+        const findImage = state.allImages.findIndex(
+          (image) => image.imageId === action.payload.imageId
+        );
+        if (findImage !== -1) {
+          state.allImages[findImage] = action.payload
+          state.favImages[findImage] = action.payload;
+
+        }
+          
+        state.loading = false;
+      })
+      .addCase(updateFavoriteImage.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

@@ -3,17 +3,43 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { LuInfo } from "react-icons/lu";
 import { FaRegStar } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Link, useParams } from "react-router-dom";
-import { useAppSelector } from "@/app/store";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/app/store";
 import { useState } from "react";
 import ImageInfo from "./ImageInfo";
+import {
+  fetchAllImages,
+  updateFavoriteImage,
+} from "@/features/image/imageThunks";
 
 const PhotoDisplay = () => {
+  const location = useLocation();
+  console.log(location.pathname);
   const { imageId } = useParams();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const { allImages } = useAppSelector((state) => state.image);
-  const image = allImages?.find((img) => img.imageId === imageId);
+
+  const image = allImages.find((img) => img.imageId === imageId);
+
   const [showInfo, setShowInfo] = useState<boolean>(false);
+  const [favImg, setFavImg] = useState<boolean>(false);
   console.log(image);
+  const favoriteHandler = async () => {
+    const updatedFavoriteStatus = !favImg; // Toggle it manually
+    setFavImg(updatedFavoriteStatus);
+    const imageId = image?.imageId;
+    const favorite = {
+      isFavorite: updatedFavoriteStatus,
+    };
+    try {
+      console.log(favorite.isFavorite);
+      await dispatch(updateFavoriteImage({ imageId, favorite })).unwrap();
+      dispatch(fetchAllImages(user?.userId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -38,9 +64,12 @@ const PhotoDisplay = () => {
                 >
                   <LuInfo size={20} />
                 </button>
-                <button className="p-2 rounded-full hover:bg-white/20 transition text-white">
+                <button
+                  className="p-2 rounded-full hover:bg-white/20 transition text-white"
+                  onClick={favoriteHandler}
+                >
                   {image?.isFavorite ? (
-                    <FaStar />
+                    <FaStar size={20} />
                   ) : (
                     <FaRegStar size={20} color="white" />
                   )}

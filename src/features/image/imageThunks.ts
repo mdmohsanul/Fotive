@@ -72,3 +72,22 @@ export const fetchfavoritesByUser = createAsyncThunk<
     return rejectWithValue(err.response?.data || "Failed to fetch albums");
   }
 });
+type favorite = {
+  isFavorite: boolean;
+};
+export const updateFavoriteImage = createAsyncThunk<
+  Image,
+  { imageId: string | undefined; favorite: favorite }
+>("image/updateFav", async ({ imageId, favorite }, { rejectWithValue }) => {
+  console.log(favorite);
+  try {
+    const response = await api.patch(
+      `/albums/images/${imageId}/favorite`,
+      favorite
+    );
+    return response.data.data;
+  } catch (error) {
+    const err = error as AxiosError;
+    return rejectWithValue(err.response?.data || "Failed to fetch albums");
+  }
+});
