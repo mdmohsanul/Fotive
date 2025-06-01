@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllImages, fetchImages, uploadImage } from "./imageThunks";
+import {
+  fetchAllImages,
+  fetchfavoritesByUser,
+  fetchImages,
+  uploadImage,
+} from "./imageThunks";
 
 interface Comment {
   user: string;
@@ -19,12 +24,14 @@ export interface Image {
   imageId: string;
   createdAt: string;
   updatedAt: string;
+  size: number;
 }
 interface ImageSlice {
   images: Image[];
   allImages: Image[];
   error: string | null | undefined;
   loading: boolean;
+  favImages: Image[];
 }
 
 const initialState: ImageSlice = {
@@ -32,6 +39,7 @@ const initialState: ImageSlice = {
   allImages: [],
   error: null,
   loading: false,
+  favImages: [],
 };
 
 const imageSlice = createSlice({
@@ -64,6 +72,18 @@ const imageSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchAllImages.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchfavoritesByUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchfavoritesByUser.fulfilled, (state, action) => {
+        state.favImages = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchfavoritesByUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

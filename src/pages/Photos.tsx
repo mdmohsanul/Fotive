@@ -8,7 +8,6 @@ import PhotoCards from "@/components/Photos/PhotoCards";
 const Photos = () => {
   const { allImages } = useAppSelector((state) => state.image);
   const { user } = useAppSelector((state) => state.auth);
-  console.log(user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const Photos = () => {
 
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 px-5 space-y-4 pt-8">
           {allImages.map((image: Image) => (
-            <PhotoCards image={image} />
+            <PhotoCards image={image} key={image.imageId} />
           ))}
         </div>
       </div>
