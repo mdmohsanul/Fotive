@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteAlbum, fetchAlbums } from "@/features/album/albumThunk";
 import { format } from "date-fns";
 import type { Album } from "@/types/album";
+import album from "/NoAlbum.webp";
 
 type AlbumProps = {
   setUpdatedData: (album: Album) => void;
@@ -18,7 +19,7 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
   const [err, setErr] = useState<string | undefined>();
   const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
   const albumList = sortedAlbums.length === 0 ? albums : sortedAlbums;
-
+  console.log("albums", albumList);
   const getDate = (inputDate: string): string | undefined => {
     if (!inputDate) return;
     const dateFormat = format(inputDate, "yyyy-MM-dd");
@@ -51,8 +52,16 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
   };
   return (
     <>
+      {err && <p>{err}</p>}
+      {albumList.length === 0 && (
+        <div className="flex flex-col items-center justify-center pt-8">
+          <img src={album} alt="no-album-found" />
+          <p className="text-gray-800 pt-4">
+            The albums you create are shown here
+          </p>
+        </div>
+      )}
       <div className="flex flex-wrap mx-8 gap-10">
-        {err && <p>{err}</p>}
         {albumList?.map((item: Album, idx) => (
           <div
             key={item?._id}

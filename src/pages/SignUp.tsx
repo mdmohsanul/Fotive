@@ -1,7 +1,9 @@
-import SignUpForm from "@/components/SignUpForm";
+import SignUpForm from "@/components/SignUp/SignUpForm";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Fotive from "/fotive-logo-dark-big.png";
+
+import SignUpSuccess from "@/components/SignUp/SignUpSuccess";
 
 const SignUp = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -26,7 +28,7 @@ const SignUp = () => {
           </Link>
         </p>
       </div>
-      <div>{showPopup}</div>
+      {showPopup && <SignUpSuccess/>}
     </>
   );
 };

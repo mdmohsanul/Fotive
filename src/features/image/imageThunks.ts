@@ -15,11 +15,11 @@ export const fetchImages = createAsyncThunk<Image[] , string | undefined>("image
           }
 })
 
-export const fetchAllImages = createAsyncThunk<Image[]>(
+export const fetchAllImages = createAsyncThunk<Image[], string | undefined>(
   "image/fetchAll",
-  async (_, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/albums/images`);
+      const response = await api.get(`/albums/user/${userId}/images`);
       return response.data.data;
     } catch (error) {
       const err = error as AxiosError;

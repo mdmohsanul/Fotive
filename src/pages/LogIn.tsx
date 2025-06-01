@@ -9,7 +9,7 @@ import Fotive from "/fotive-logo-dark-big.png";
 const LogIn = () => {
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.auth);
-
+console.log(user);
   useEffect(() => {
     if (user) {
       navigate("/dashboard");

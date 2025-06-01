@@ -12,7 +12,7 @@ const Album_Images = () => {
   const { albums } = useAppSelector((state) => state.album);
   const [openImageForm, setOpenImageForm] = useState(false);
   const findAlbum = albums.find((album) => album.albumId === albumId);
-
+console.log(albumId);
   console.log(findAlbum);
   useEffect(() => {
     dispatch(fetchImages(albumId));
