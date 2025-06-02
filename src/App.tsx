@@ -1,9 +1,7 @@
-
-
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./app/store";
+import { useAppDispatch } from "./app/store";
 import { checkAuth } from "./features/auth/authThunks";
 
 function App() {
