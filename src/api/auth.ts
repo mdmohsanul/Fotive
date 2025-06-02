@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const api = axios.create({
-  baseURL: "https://fotive-backend.vercel.app//api/v1",
+  baseURL: "https://fotive-backend.vercel.app/api/v1",
   withCredentials: true, // Send and recieve cookies
 });
 
