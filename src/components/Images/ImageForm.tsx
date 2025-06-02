@@ -1,7 +1,7 @@
 import { RxCrossCircled } from "react-icons/rx";
 import { useState, type ChangeEvent } from "react";
 import { useAppDispatch } from "@/app/store";
-import { uploadImage } from "@/features/image/imageThunks";
+import { fetchImages, uploadImage } from "@/features/image/imageThunks";
 import { imageTags } from "@/data/tags";
 import { TiTick } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
@@ -12,6 +12,7 @@ type ImageProps = {
 };
 
 const ImageForm: React.FC<ImageProps> = ({ setOpenImageForm, albumId }) => {
+  const dispatch = useAppDispatch();
   const [image, setImage] = useState<File | null>(null);
   const [message, setMessage] = useState("");
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -19,7 +20,6 @@ const ImageForm: React.FC<ImageProps> = ({ setOpenImageForm, albumId }) => {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const dispatch = useAppDispatch();
   const handleClick = () => {
     setOpenImageForm(false);
   };
@@ -43,7 +43,6 @@ const ImageForm: React.FC<ImageProps> = ({ setOpenImageForm, albumId }) => {
       setMessage("Please select an image to upload");
       return;
     }
-
     const formData = new FormData();
     formData.append("image", image);
     formData.append("isFavorite", isFavorite.toString());
@@ -51,9 +50,9 @@ const ImageForm: React.FC<ImageProps> = ({ setOpenImageForm, albumId }) => {
       formData.append("tags[]", tag); // or just "tags"
     });
 
-    console.log(formData);
     try {
       await dispatch(uploadImage({ formData, albumId })).unwrap();
+      await dispatch(fetchImages(albumId));
       setOpenImageForm(false);
     } catch (error) {
       console.log(error);

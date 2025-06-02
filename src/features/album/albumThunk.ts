@@ -4,7 +4,6 @@ import { api } from "@/api/auth";
 import type { AxiosError } from "axios";
 import type { IFormInput } from "@/components/Album/AlbumForm";
 
-
 export interface Album {
   name: string;
   description: string;

@@ -6,7 +6,7 @@ const Dashboard_Layout = () => {
   const { pathname } = useLocation();
 
   // Routes where you don't want layout
-  const hideAlbumLayout = pathname.startsWith("/dashboard/album/");
+  const hideAlbumLayout = pathname.startsWith("/dashboard/albums/");
   // const hidePhotoLayout = pathname.startsWith("/dashboard/photos");
 
   if (hideAlbumLayout) {

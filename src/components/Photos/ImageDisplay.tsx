@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { useState } from "react";
 import ImageInfo from "./ImageInfo";
 import {
+  deleteImage,
   fetchAllImages,
   updateFavoriteImage,
 } from "@/features/image/imageThunks";
@@ -16,7 +17,7 @@ const ImageDisplay = () => {
   // const location = useLocation();
   // console.log(location.pathname.split("/").slice(-2)[0]);
   // const backPath = location.pathname.split("/").slice(-2)[0];
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const { imageId } = useParams();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
@@ -43,6 +44,19 @@ const navigate = useNavigate()
     }
   };
 
+  const deleteHandler = async () => {
+    const imageId = image?.imageId;
+    const userId = user?.userId;
+
+    try {
+      dispatch(deleteImage({ imageId, userId })).unwrap();
+      dispatch(fetchAllImages(user?.userId));
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -57,7 +71,12 @@ const navigate = useNavigate()
               >
                 <FaArrowLeft size={20} />
               </Link> */}
-              <button    className="p-2 rounded-full hover:bg-white/20 transition" onClick={() => navigate(-1)}><FaArrowLeft size={20} /></button>
+              <button
+                className="p-2 rounded-full hover:bg-white/20 transition"
+                onClick={() => navigate(-1)}
+              >
+                <FaArrowLeft size={20} />
+              </button>
 
               {/* Action Buttons */}
               <div className="flex gap-4">
@@ -77,7 +96,10 @@ const navigate = useNavigate()
                     <FaRegStar size={20} color="white" />
                   )}
                 </button>
-                <button className="p-2 rounded-full hover:bg-red-500/70 hover:text-white transition">
+                <button
+                  className="p-2 rounded-full hover:bg-red-500/70 hover:text-white transition"
+                  onClick={deleteHandler}
+                >
                   <RiDeleteBin6Line size={20} />
                 </button>
               </div>

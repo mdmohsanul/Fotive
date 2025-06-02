@@ -15,8 +15,11 @@ const ImageHeader: React.FC<ImageHeaderProps> = ({ setOpenImageForm }) => {
       <div className=" bg-gray-100 fixed top-0 w-full z-30">
         <div className="max-w-screen mx-auto h-16 backdrop-blur-2xl">
           <div className="px-10 py-4 flex items-center  justify-between ">
-            <Link to={"/dashboard/albums"}>
-              <GoArrowLeft size={25} className="cursor-pointer" />
+            <Link
+              to={"/dashboard/albums"}
+              className="p-2 rounded-full hover:bg-gray-300"
+            >
+              <GoArrowLeft size={25} className="cursor-pointer " />
             </Link>
             <div className="flex gap-6">
               <button className="cursor-pointer" onClick={openFormHandler}>

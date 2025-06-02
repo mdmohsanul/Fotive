@@ -47,18 +47,18 @@ export const uploadImage = createAsyncThunk<
   }
 });
 
-export const deleteImage = createAsyncThunk(
-  "image/delete",
-  async (imageId, { rejectWithValue }) => {
-    try {
-      const response = await api.delete(`/albums/${imageId}/images`);
-      return response.data.data;
-    } catch (error) {
-      const err = error as AxiosError;
-      return rejectWithValue(err.response?.data || "Failed to fetch albums");
-    }
+export const deleteImage = createAsyncThunk<
+  Image,
+  { imageId: string | undefined; userId: string | undefined }
+>("image/delete", async ({ imageId, userId }, { rejectWithValue }) => {
+  try {
+    const response = await api.delete(`/albums/${userId}/images/${imageId}`);
+    return response.data.data;
+  } catch (error) {
+    const err = error as AxiosError;
+    return rejectWithValue(err.response?.data || "Failed to fetch albums");
   }
-);
+});
 
 export const fetchfavoritesByUser = createAsyncThunk<
   Image[],
