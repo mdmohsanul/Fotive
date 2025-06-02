@@ -10,7 +10,7 @@ import RecentlyAdded from "./pages/RecentlyAdded";
 import Album_Images from "./pages/Album_Images";
 import PhotoDisplay from "./components/Photos/ImageDisplay";
 import Favorites from "./pages/Favorites";
-import SignUp from "./pages/Signup";
+import SignUp from "./pages/SignUp";
 
 const appRouter = createBrowserRouter([
   {

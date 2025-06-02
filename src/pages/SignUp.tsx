@@ -1,9 +1,9 @@
-import SignUpForm from "@/components/SignUp/SignUpForm";
+import SignUpForm from "@/components/Signup/SignUpForm";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Fotive from "/fotive-logo-dark-big.png";
 
-import SignUpSuccess from "@/components/SignUp/SignUpSuccess";
+import SignUpSuccess from "@/components/Signup/SignUpSuccess";
 
 const SignUp = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
