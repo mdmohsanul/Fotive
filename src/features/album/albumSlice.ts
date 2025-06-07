@@ -3,6 +3,7 @@ import {
   createAlbum,
   deleteAlbum,
   fetchAlbums,
+  shareAlbum,
   updateData,
   type Album,
 } from "./albumThunk";
@@ -69,6 +70,20 @@ const albumSlice = createSlice({
         }
       })
       .addCase(updateData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(shareAlbum.fulfilled, (state, action) => {
+        state.loading = false;
+         const findAlbum = state.albums.findIndex(
+          (album) => album.albumId === action.payload.albumId
+        );
+
+        if (findAlbum !== -1) {
+          state.albums[findAlbum] = action.payload;
+        }
+      })
+      .addCase(shareAlbum.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

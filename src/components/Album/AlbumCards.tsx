@@ -3,9 +3,10 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteAlbum, fetchAlbums } from "@/features/album/albumThunk";
-import { format } from "date-fns";
 import type { Album } from "@/types/album";
 import album from "/NoAlbum.webp";
+import { useDate } from "@/hooks/useDate";
+import SharedUserForm from "./SharedUserForm";
 
 type AlbumProps = {
   setUpdatedData: (album: Album) => void;
@@ -18,14 +19,12 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
   const { albums, sortedAlbums } = useAppSelector((state) => state.album);
   const [err, setErr] = useState<string | undefined>();
   const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
-  const albumList = sortedAlbums.length === 0 ? albums : sortedAlbums;
-  console.log("albums", albumList);
-  const getDate = (inputDate: string): string | undefined => {
-    if (!inputDate) return;
-    const dateFormat = format(inputDate, "yyyy-MM-dd");
-    return dateFormat;
-  };
+  const [openSharedUserForm, setSharedUserForm] = useState<boolean>(false);
 
+  const albumList = sortedAlbums.length === 0 ? albums : sortedAlbums;
+
+  // custom hook to get formated date
+  const getDate = useDate();
   const handleCardClick = (albumId: string) => {
     navigate(`/dashboard/albums/${albumId}`);
   };
@@ -108,7 +107,10 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
                   Rename
                 </button>
 
-                <button className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer">
+                <button
+                  className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => setSharedUserForm(true)}
+                >
                   Share
                 </button>
                 <button
@@ -122,6 +124,11 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
           </div>
         ))}
       </div>
+      {openSharedUserForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-black/50 min-h-screen">
+          <SharedUserForm setSharedUserForm={setSharedUserForm} />
+        </div>
+      )}
     </>
   );
 };

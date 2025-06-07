@@ -63,6 +63,7 @@ const imageSlice = createSlice({
       })
       .addCase(uploadImage.fulfilled, (state, action) => {
         state.images?.push(action?.payload);
+        state.allImages?.push(action?.payload);
       })
       .addCase(fetchAllImages.pending, (state) => {
         state.loading = true;

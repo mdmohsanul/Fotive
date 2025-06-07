@@ -1,7 +1,8 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import ImageForm from "@/components/Images/ImageForm";
 import ImageHeader from "@/components/Images/ImageHeader";
-import ImageCards from "@/components/Photos/ImageCards";
+import AlbumImageCards from "@/components/Photos/AlbumImageCards";
+// import ImageCards from "@/components/Photos/ImageCards";
 import type { Image } from "@/features/image/imageSlice";
 import { fetchImages } from "@/features/image/imageThunks";
 import { useEffect, useState } from "react";
@@ -27,7 +28,11 @@ const Album_Images = () => {
         <h1 className="text-4xl text-gray-800 py-6">{findAlbum?.name}</h1>
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 px-5 space-y-4 pt-8">
           {images?.map((image: Image) => (
-            <ImageCards image={image} key={image.imageId} />
+            <AlbumImageCards
+              image={image}
+              key={image.imageId}
+              albumId={albumId}
+            />
           ))}
         </div>
       </div>

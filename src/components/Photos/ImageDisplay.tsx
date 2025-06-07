@@ -14,11 +14,9 @@ import {
 } from "@/features/image/imageThunks";
 
 const ImageDisplay = () => {
-  // const location = useLocation();
-  // console.log(location.pathname.split("/").slice(-2)[0]);
-  // const backPath = location.pathname.split("/").slice(-2)[0];
   const navigate = useNavigate();
   const { imageId } = useParams();
+  console.log("imageid", imageId);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const { allImages } = useAppSelector((state) => state.image);

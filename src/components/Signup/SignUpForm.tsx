@@ -93,7 +93,7 @@ export const SignUpForm: React.FC<SignUpProps> = ({ setShowPopup }) => {
             type="submit"
             className="h-12 w-full rounded-full text-md cursor-pointer bg-gray-800 "
           >
-            Submit
+            Sign Up
           </Button>
         </form>
       </Form>

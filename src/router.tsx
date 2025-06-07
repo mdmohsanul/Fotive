@@ -34,6 +34,10 @@ const appRouter = createBrowserRouter([
           { path: "/dashboard/albums/:albumId", element: <Album_Images /> },
           { path: "/dashboard/favorites", element: <Favorites /> },
           { path: "/dashboard/recentlyAdded", element: <RecentlyAdded /> },
+          {
+            path: "/dashboard/albums/:albumId/image/:imageId",
+            element: <PhotoDisplay />,
+          },
         ],
       },
       { path: "*", element: <PageNotFound /> },

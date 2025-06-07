@@ -6,10 +6,12 @@ import {
   logoutUser,
   emailLogin,
   registerUser,
+  getAllRegisteredUsers,
 } from "./authThunks";
 
 interface AuthState {
   user: User | null;
+  registeredUsers: User[] | null;
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
@@ -19,10 +21,11 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
+  registeredUsers: [],
   accessToken: null,
   refreshToken: null,
-  error: null,
   isAuthenticated: false,
+  error: null,
   loading: false,
 };
 
@@ -85,6 +88,14 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getAllRegisteredUsers.fulfilled, (state,action) => {
+        state.loading = false;
+        state.registeredUsers = action.payload
+      })
+      .addCase(getAllRegisteredUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
