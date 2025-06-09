@@ -5,14 +5,16 @@ import {
   fetchAlbums,
   shareAlbum,
   updateData,
-  type Album,
 } from "./albumThunk";
+import type { Album } from "@/types/album";
 
 interface AlbumSlice {
   albums: Album[];
   error: string | null | undefined;
   loading: boolean;
   sortedAlbums: Album[];
+  sortOrder: "asc" | "desc";
+  albumFilter: "all" | "shared" | "myAlbums";
 }
 
 const initialState: AlbumSlice = {
@@ -20,6 +22,8 @@ const initialState: AlbumSlice = {
   error: null,
   loading: false,
   sortedAlbums: [],
+  sortOrder: "desc",
+  albumFilter: "all",
 };
 
 const albumSlice = createSlice({
@@ -28,6 +32,13 @@ const albumSlice = createSlice({
   reducers: {
     setSortFilter: (state, action) => {
       state.sortedAlbums = action.payload;
+    },
+    setSortOrder: (state, action) => {
+      state.sortOrder = action.payload;
+    },
+
+    setAlbumFilter: (state, action) => {
+      state.albumFilter = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -75,7 +86,7 @@ const albumSlice = createSlice({
       })
       .addCase(shareAlbum.fulfilled, (state, action) => {
         state.loading = false;
-         const findAlbum = state.albums.findIndex(
+        const findAlbum = state.albums.findIndex(
           (album) => album.albumId === action.payload.albumId
         );
 
@@ -89,6 +100,7 @@ const albumSlice = createSlice({
       });
   },
 });
-export const { setSortFilter } = albumSlice.actions;
+export const { setSortFilter, setAlbumFilter, setSortOrder } =
+  albumSlice.actions;
 export default albumSlice.reducer;
 

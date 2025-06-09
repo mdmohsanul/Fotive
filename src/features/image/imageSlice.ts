@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllImages,
+  fetchComments,
   fetchfavoritesByUser,
   fetchImages,
   updateFavoriteImage,
   uploadImage,
 } from "./imageThunks";
+import type { CommentList } from "@/types/comment";
 
 interface Comment {
   user: string;
@@ -33,6 +35,7 @@ interface ImageSlice {
   error: string | null | undefined;
   loading: boolean;
   favImages: Image[];
+  comments: CommentList;
 }
 
 const initialState: ImageSlice = {
@@ -41,6 +44,7 @@ const initialState: ImageSlice = {
   error: null,
   loading: false,
   favImages: [],
+  comments: [],
 };
 
 const imageSlice = createSlice({
@@ -94,18 +98,27 @@ const imageSlice = createSlice({
           (image) => image.imageId === action.payload.imageId
         );
         if (findImage !== -1) {
-          state.allImages[findImage] = action.payload
+          state.allImages[findImage] = action.payload;
           state.favImages[findImage] = action.payload;
-
         }
-          
         state.loading = false;
       })
       .addCase(updateFavoriteImage.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchComments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchComments.fulfilled, (state, action) => {
+        state.comments = action.payload;
+      })
+      .addCase(fetchComments.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export default imageSlice.reducer
+export default imageSlice.reducer;

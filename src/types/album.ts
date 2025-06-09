@@ -4,4 +4,5 @@ export  type Album = {
   createdAt: string;
   _id: string;
   description: string;
+  ownerId: string;
 };

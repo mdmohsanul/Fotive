@@ -3,14 +3,7 @@ import { api } from "@/api/auth";
 
 import type { AxiosError } from "axios";
 import type { IFormInput } from "@/components/Album/AlbumForm";
-
-export interface Album {
-  name: string;
-  description: string;
-  albumId: string;
-  createdAt: string;
-  _id: string;
-}
+import { type Album } from "@/types/album";
 
 export const createAlbum = createAsyncThunk<Album, IFormInput>(
   "album/createAlbum",
@@ -95,10 +88,11 @@ type Data = {
 
 export const shareAlbum = createAsyncThunk<
   Album,
-  { albumId: string | undefined; data: Data }
+  { albumId: string | undefined | null; data: Data }
 >("album/shareAlbum", async ({ albumId, data }, { rejectWithValue }) => {
   try {
     console.log(data);
+    console.log(albumId);
     const response = await api.patch(`/albums/${albumId}/share`, data);
     console.log(response);
     return response.data.data;

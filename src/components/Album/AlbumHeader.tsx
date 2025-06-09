@@ -1,8 +1,8 @@
 import { FaRegSquarePlus } from "react-icons/fa6";
 import { CgArrowsExchangeV } from "react-icons/cg";
-import { useAppDispatch, useAppSelector } from "@/app/store";
+import { useAppDispatch } from "@/app/store";
 import { useState } from "react";
-import { setSortFilter } from "@/features/album/albumSlice";
+import { setSortOrder } from "@/features/album/albumSlice";
 import type { Album } from "@/types/album";
 
 type AlbumProps = {
@@ -14,7 +14,6 @@ const AlbumHeader: React.FC<AlbumProps> = ({
   setUpdatedData,
 }) => {
   const dispatch = useAppDispatch();
-  const { albums } = useAppSelector((state) => state.album);
   const [clickTrack, setClickTrack] = useState(true);
   const handleClick = () => {
     setOpenModal(true);
@@ -23,19 +22,8 @@ const AlbumHeader: React.FC<AlbumProps> = ({
 
   const sortHandler = () => {
     setClickTrack(!clickTrack);
-    let sorted;
-    if (clickTrack) {
-      sorted = [...albums].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-    } else {
-      sorted = [...albums].sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      );
-    }
-    dispatch(setSortFilter(sorted));
+
+    dispatch(setSortOrder(clickTrack ? "desc" : "asc"));
   };
 
   return (

@@ -1,12 +1,14 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteAlbum, fetchAlbums } from "@/features/album/albumThunk";
 import type { Album } from "@/types/album";
 import album from "/NoAlbum.webp";
 import { useDate } from "@/hooks/useDate";
 import SharedUserForm from "./SharedUserForm";
+import { ToastContainer, toast } from "react-toastify";
+import useAlbumFilter from "@/hooks/useAlbumFilter";
 
 type AlbumProps = {
   setUpdatedData: (album: Album) => void;
@@ -17,11 +19,31 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { albums, sortedAlbums } = useAppSelector((state) => state.album);
-  const [err, setErr] = useState<string | undefined>();
   const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
   const [openSharedUserForm, setSharedUserForm] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const albumList = sortedAlbums.length === 0 ? albums : sortedAlbums;
+  const displayAlbums = useAlbumFilter(
+    sortedAlbums.length ? sortedAlbums : albums
+  );
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target) &&
+        (!modalRef.current || !modalRef.current.contains(target))
+      ) {
+        setActiveAlbumId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // custom hook to get formated date
   const getDate = useDate();
@@ -40,19 +62,26 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
   };
 
   const deleteHandler = async (albumId: string) => {
-    console.log(albumId);
     try {
       await dispatch(deleteAlbum(albumId)).unwrap();
       // refresh list or show success message
       dispatch(fetchAlbums());
+      toast.success("Album deleted succesfully!");
     } catch (error) {
-      setErr(error as string); // if using state for error
+      toast.warn(`${error}`);
+      // setErr(error as string); // if using state for error
     }
+  };
+
+  const shareHandler = (albumId: string) => {
+    console.log(albumId);
+    setActiveAlbumId(albumId);
+    setSharedUserForm(true);
   };
   return (
     <>
-      {err && <p>{err}</p>}
-      {albumList.length === 0 && (
+      <ToastContainer />
+      {displayAlbums.length === 0 && (
         <div className="flex flex-col items-center justify-center pt-8">
           <img src={album} alt="no-album-found" />
           <p className="text-gray-800 pt-4">
@@ -61,7 +90,7 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
         </div>
       )}
       <div className="flex flex-wrap mx-8 gap-10">
-        {albumList?.map((item: Album, idx) => (
+        {displayAlbums?.map((item: Album, idx) => (
           <div
             key={item?._id}
             className="relative cursor-pointer"
@@ -97,6 +126,7 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
             {/* Dropdown Menu */}
             {activeAlbumId === item.albumId && (
               <div
+                ref={dropdownRef}
                 className="absolute top-14 right-7 bg-white shadow-lg p-2 rounded z-10 text-sm"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -109,7 +139,7 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
 
                 <button
                   className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => setSharedUserForm(true)}
+                  onClick={() => shareHandler(item?.albumId)}
                 >
                   Share
                 </button>
@@ -125,8 +155,14 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
         ))}
       </div>
       {openSharedUserForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-black/50 min-h-screen">
-          <SharedUserForm setSharedUserForm={setSharedUserForm} />
+        <div
+          ref={modalRef}
+          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-black/50 min-h-screen"
+        >
+          <SharedUserForm
+            activeAlbumId={activeAlbumId}
+            setSharedUserForm={setSharedUserForm}
+          />
         </div>
       )}
     </>

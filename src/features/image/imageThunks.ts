@@ -3,7 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import type { Image } from "./imageSlice";
 
-
 export const fetchImages = createAsyncThunk<Image[], string | undefined>(
   "image/fetchImages",
   async (albumId, { rejectWithValue }) => {
@@ -79,7 +78,7 @@ export const updateFavoriteImage = createAsyncThunk<
   Image,
   { imageId: string | undefined; favorite: favorite }
 >("image/updateFav", async ({ imageId, favorite }, { rejectWithValue }) => {
-  console.log(favorite);
+;
   try {
     const response = await api.patch(
       `/albums/images/${imageId}/favorite`,
@@ -91,3 +90,15 @@ export const updateFavoriteImage = createAsyncThunk<
     return rejectWithValue(err.response?.data || "Failed to fetch albums");
   }
 });
+
+export const fetchComments = createAsyncThunk("image/fetchComments" , async(imageId,{rejectWithValue}) => {
+ try {
+    const response = await api.get(
+      `/albums/images/${imageId}/comments`
+    );
+    return response.data.data;
+  } catch (error) {
+    const err = error as AxiosError;
+    return rejectWithValue(err.response?.data || "Failed to fetch albums");
+  }
+})

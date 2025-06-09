@@ -1,16 +1,20 @@
+import { useAppDispatch } from '@/app/store';
+import { setAlbumFilter } from '@/features/album/albumSlice';
 import {useState} from 'react'
 
 const AlbumFilter = () => {
+  const dispatch = useAppDispatch()
     const btn =
       "text-sm text-gray-800 py-1 px-3 rounded-md cursor-pointer border border-gray-600 mr-5 font-medium";
   const [selectedItems, setSelectedItems] = useState(["all"]);
 
-  const selectHandler = (item: string) => {
+  const selectHandler = (item: "all" | "shared" | "myAlbums") => {
     if (item === "all") {
       setSelectedItems(["all", "shared", "myAlbums"]);
     } else {
       setSelectedItems([item]);
     }
+    dispatch(setAlbumFilter(item))
   };
   return (
     <div className="px-7 py-7">
