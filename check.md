@@ -1,0 +1,1 @@
+While creating album, apply validation on name on a particular user not in all albums

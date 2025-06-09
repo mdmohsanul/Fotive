@@ -2,6 +2,7 @@ export interface User {
   _id: string;
   email: string;
   avatar: string;
+  userName: string;
 }
 
 export interface Comment {

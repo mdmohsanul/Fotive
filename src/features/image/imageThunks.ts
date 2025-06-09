@@ -91,14 +91,35 @@ export const updateFavoriteImage = createAsyncThunk<
   }
 });
 
-export const fetchComments = createAsyncThunk("image/fetchComments" , async(imageId,{rejectWithValue}) => {
- try {
-    const response = await api.get(
-      `/albums/images/${imageId}/comments`
-    );
-    return response.data.data;
-  } catch (error) {
-    const err = error as AxiosError;
-    return rejectWithValue(err.response?.data || "Failed to fetch albums");
+export const fetchComments = createAsyncThunk<Image, string | undefined>(
+  "image/fetchComments",
+  async (imageId, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/albums/images/${imageId}/comments`);
+      return response.data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data || "Failed to fetch albums");
+    }
   }
-})
+);
+type UpdateCommentArgs = {
+  imageId: string | undefined;
+  comment: { comment: string };
+};
+
+export const updateComment = createAsyncThunk<any, UpdateCommentArgs>(
+  "image/updateComment",
+  async ({ imageId, comment }, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(
+        `/albums/images/${imageId}/comment`,
+        comment
+      );
+      return response.data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data || "Failed to fetch albums");
+    }
+  }
+);

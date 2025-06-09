@@ -4,17 +4,11 @@ import {
   fetchComments,
   fetchfavoritesByUser,
   fetchImages,
+  updateComment,
   updateFavoriteImage,
   uploadImage,
 } from "./imageThunks";
 import type { CommentList } from "@/types/comment";
-
-interface Comment {
-  user: string;
-  text: string;
-  _id: string;
-  createdAt: string;
-}
 
 export interface Image {
   _id: string;
@@ -22,7 +16,7 @@ export interface Image {
   name: string;
   tags: string[];
   isFavorite: true;
-  comments: Comment[];
+  comments: CommentList[];
   imageUrl: string;
   imageId: string;
   createdAt: string;
@@ -115,6 +109,19 @@ const imageSlice = createSlice({
         state.comments = action.payload;
       })
       .addCase(fetchComments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateComment.fulfilled, (state, action) => {
+        state.loading = false;
+        const findImage = state.allImages.findIndex(
+          (image) => image.imageId === action.payload.imageId
+        );
+        if (findImage !== -1) {
+          state.allImages[findImage].comments.push(action.payload);
+        }
+      })
+      .addCase(updateComment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
