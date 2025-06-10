@@ -16,7 +16,7 @@ const Dashboard_Layout = () => {
   //   return <Outlet />; // ⛔ No Header/Sidebar for this route
   // }
   return (
-    <div className="relative bg-[#f0f4f9]">
+    <div className="relative ">
       <UserHeader />
       <Sidebar />
       <Outlet />

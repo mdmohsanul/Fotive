@@ -15,10 +15,10 @@ const Photos = () => {
   }, [dispatch, user?.userId]);
 
   return (
-    <main className="pl-[258px] pt-[75px]  ">
-      <div className="bg-white rounded-lg mr-3 min-h-screen">
-        <div className=" border-b border-gray-300 px-5 py-3 text-gray-800 flex items-center  justify-between">
-          <h1 className="text-3xl  ">Photos</h1>
+    <main className="lg:pt-20 pt-[52px]  min-h-screen bg-white lg:ml-64">
+      <div className="bg-white rounded-lg mr-3  min-h-screen">
+        <div className=" border-b border-gray-300 lg:px-5 px-8  py-3 text-gray-800  ">
+          <h1 className="text-3xl  text-center lg:text-left">Photos</h1>
         </div>
         {allImages.length === 0 && (
           <div className="flex items-center justify-center flex-col pt-8">

@@ -27,8 +27,8 @@ const AlbumHeader: React.FC<AlbumProps> = ({
   };
 
   return (
-    <div className=" border-b border-gray-300 px-5 py-3 text-gray-800 flex items-center  justify-between">
-      <h1 className="text-3xl  ">Albums</h1>
+    <div className=" border-b border-gray-300 px-5 py-3 text-gray-800 flex lg:flex-row flex-col gap-y-5 items-center  justify-between">
+      <h1 className="text-3xl text-center lg:text-left ">Albums</h1>
       <div className="text-sm font-medium flex text-gray-700">
         <button
           className="pr-8 flex items-center gap-3 cursor-pointer"

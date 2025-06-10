@@ -18,7 +18,7 @@ const Albums = () => {
   }, [dispatch]);
 
   return (
-    <main className="pl-[258px] pt-[75px]  ">
+    <main className="lg:pt-20 pt-[52px]  min-h-screen bg-white lg:ml-64  ">
       <div className="bg-white rounded-lg mr-3 min-h-screen">
         <AlbumHeader
           setOpenModal={setOpenModal}

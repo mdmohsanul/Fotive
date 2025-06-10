@@ -4,12 +4,12 @@ import  {GoogleOAuthProvider} from "@react-oauth/google"
 import { useAppSelector } from "../app/store";
 import { Link, useNavigate } from "react-router-dom";
 import LoginForm from "@/components/LoginForm";
-import Fotive from "/fotive-logo-dark-big.png";
+import Fotive from "/test5.png";
 
 const LogIn = () => {
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.auth);
-console.log(user);
+  console.log(user);
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
@@ -20,7 +20,7 @@ console.log(user);
       <div className="max-w-6xl mx-auto">
         <img src={Fotive} alt="logo" loading="lazy" className="pt-3" />
 
-        <div className="max-w-md mx-auto  border border-gray-200 rounded-md p-7 shadow-[0_3px_10px_rgb(0,0,0,0.2)] my-5">
+        <div className="max-w-md mx-auto  border border-gray-200 rounded-md p-7  shadow-[0_3px_10px_rgb(0,0,0,0.2)] my-5">
           <h1 className="text-3xl text-gray-900 text-start pb-5 font-medium">
             Sign in
           </h1>

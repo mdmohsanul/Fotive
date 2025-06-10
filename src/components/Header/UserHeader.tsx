@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import FotiveSmall from "../../../public/fotive-small.png";
-import Fotive from "/test.png";
+import FotiveSmall from "/test6.png";
+import Fotive from "/test5.png";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,7 @@ const UserHeader = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-30  backdrop-blur-md shadow-sm">
+    <div className="fixed top-0 left-0 w-full z-60  backdrop-blur-md shadow-sm">
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between py-1">
           {/* Logo Section */}
