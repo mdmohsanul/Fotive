@@ -1,7 +1,7 @@
 import type { IconType } from "react-icons/lib";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { MdOutlinePhotoAlbum } from "react-icons/md";
-import { FaRegClock } from "react-icons/fa6";
+// import { FaRegClock } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
 type SidebarItem = {
   id: number;
