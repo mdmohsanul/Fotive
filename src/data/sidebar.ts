@@ -23,12 +23,12 @@ export const sidebar: SidebarItem[] = [
     linkTo: "/dashboard/albums",
     icon: MdOutlinePhotoAlbum,
   },
-  {
-    id: 3,
-    title: "Recently Added",
-    linkTo: "/dashboard/recentlyAdded",
-    icon: FaRegClock,
-  },
+  // {
+  //   id: 3,
+  //   title: "Recently Added",
+  //   linkTo: "/dashboard/recentlyAdded",
+  //   icon: FaRegClock,
+  // },
   {
     id: 4,
     title: "Favorites",

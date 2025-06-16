@@ -13,6 +13,7 @@ import type { CommentList } from "@/types/comment";
 export interface Image {
   _id: string;
   albumId: string;
+  userId: string;
   name: string;
   tags: string[];
   isFavorite: true;

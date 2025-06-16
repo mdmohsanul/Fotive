@@ -24,17 +24,16 @@ const ImageDisplay = () => {
   const { allImages } = useAppSelector((state) => state.image);
   const image = allImages.find((img) => img.imageId === imageId);
   console.log(image);
+  console.log(user);
   const [showComments, setShowComments] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [favImg, setFavImg] = useState<boolean>(
     image?.isFavorite ? true : false
   );
-
+  const isOwner = user?.userId === image?.userId;
   const favoriteHandler = async () => {
     const updatedFavoriteStatus = !favImg; // Toggle it manually
     setFavImg(updatedFavoriteStatus);
-    console.log("favimg", favImg);
-    console.log("updatedFavoriteStatus", updatedFavoriteStatus);
 
     const imageId = image?.imageId;
     const favorite = {
@@ -44,7 +43,7 @@ const ImageDisplay = () => {
       await dispatch(updateFavoriteImage({ imageId, favorite })).unwrap();
       dispatch(fetchAllImages(user?.userId));
     } catch (error) {
-      console.log(error);
+      toast.error(`${error}` || "Error updating Favorite");
     }
   };
 
@@ -90,22 +89,26 @@ const ImageDisplay = () => {
                 >
                   <LuInfo size={20} />
                 </button>
-                <button
-                  className="p-2 rounded-full hover:bg-white/20 transition text-white"
-                  onClick={favoriteHandler}
-                >
-                  {image?.isFavorite ? (
-                    <FaStar size={20} />
-                  ) : (
-                    <FaRegStar size={20} color="white" />
-                  )}
-                </button>
-                <button
-                  className="p-2 rounded-full hover:bg-red-500/70 hover:text-white transition"
-                  onClick={deleteHandler}
-                >
-                  <RiDeleteBin6Line size={20} />
-                </button>
+                {isOwner && (
+                  <button
+                    className="p-2 rounded-full hover:bg-white/20 transition text-white"
+                    onClick={favoriteHandler}
+                  >
+                    {image?.isFavorite ? (
+                      <FaStar size={20} />
+                    ) : (
+                      <FaRegStar size={20} color="white" />
+                    )}
+                  </button>
+                )}
+                {isOwner && (
+                  <button
+                    className="p-2 rounded-full hover:bg-red-500/70 hover:text-white transition"
+                    onClick={deleteHandler}
+                  >
+                    <RiDeleteBin6Line size={20} />
+                  </button>
+                )}
                 <button
                   className="p-2 rounded-full hover:bg-red-500/70 hover:text-white transition"
                   onClick={commentHandler}
@@ -122,6 +125,7 @@ const ImageDisplay = () => {
             alt="Preview"
             className="max-w-[90%] max-h-[80%] mt-16 shadow-xl"
             onClick={(e) => e.stopPropagation()}
+            loading="lazy"
           />
           {showInfo && <ImageInfo image={image} />}
         </div>

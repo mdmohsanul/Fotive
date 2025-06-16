@@ -19,6 +19,7 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { albums, sortedAlbums } = useAppSelector((state) => state.album);
+  const { user } = useAppSelector((state) => state.auth);
   const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
   const [openSharedUserForm, setSharedUserForm] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -90,69 +91,74 @@ const AlbumCards: React.FC<AlbumProps> = ({ setUpdatedData, setOpenModal }) => {
         </div>
       )}
       <div className="flex flex-wrap mx-8 gap-10">
-        {displayAlbums?.map((item: Album, idx) => (
-          <div
-            key={item?._id}
-            className="relative cursor-pointer"
-            onClick={() => handleCardClick(item.albumId)}
-          >
-            <div>
-              <div
-                className={`${
-                  idx % 2 === 0
-                    ? "bg-gradient-to-b from-teal-200 to-teal-500"
-                    : idx % 3 === 0
-                    ? "bg-gradient-to-b from-teal-400 to-yellow-200"
-                    : "bg-gradient-to-b from-sky-200 to-sky-500"
-                } w-56 h-56 rounded-lg relative `}
-              >
-                <span className="absolute bottom-0 p-3">
-                  {item?.description}
-                </span>
-              </div>
-              <div className="p-2">
-                <p className="text-gray-800 font-medium">{item?.name}</p>
-                <p className="text-sm text-gray-600">
-                  {getDate(item?.createdAt)}
-                </p>
-              </div>
-            </div>
-            <button
-              className="absolute top-4 right-3 w-10 h-10 text-gray-600 flex items-center justify-center cursor-pointer"
-              onClick={(e) => optionHandler(e, item.albumId)}
+        {displayAlbums?.map((item: Album, idx) => {
+          const isOwner = user?.userId === item?.ownerId;
+          return (
+            <div
+              key={item?._id}
+              className="relative cursor-pointer"
+              onClick={() => handleCardClick(item.albumId)}
             >
-              <PiDotsThreeOutlineVerticalFill size={25} />
-            </button>
-            {/* Dropdown Menu */}
-            {activeAlbumId === item.albumId && (
-              <div
-                ref={dropdownRef}
-                className="absolute top-14 right-7 bg-white shadow-lg p-2 rounded z-10 text-sm"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => remaneHandler(item)}
+              <div>
+                <div
+                  className={`${
+                    idx % 2 === 0
+                      ? "bg-gradient-to-b from-teal-200 to-teal-500"
+                      : idx % 3 === 0
+                      ? "bg-gradient-to-b from-teal-400 to-yellow-200"
+                      : "bg-gradient-to-b from-sky-200 to-sky-500"
+                  } w-56 h-56 rounded-lg relative `}
                 >
-                  Rename
-                </button>
-
-                <button
-                  className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => shareHandler(item?.albumId)}
-                >
-                  Share
-                </button>
-                <button
-                  className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => deleteHandler(item?.albumId)}
-                >
-                  Delete
-                </button>
+                  <span className="absolute bottom-0 p-3">
+                    {item?.description}
+                  </span>
+                </div>
+                <div className="p-2">
+                  <p className="text-gray-800 font-medium">{item?.name}</p>
+                  <p className="text-sm text-gray-600">
+                    {getDate(item?.createdAt)}
+                  </p>
+                </div>
               </div>
-            )}
-          </div>
-        ))}
+              {isOwner && (
+                <button
+                  className="absolute top-4 right-3 w-10 h-10 text-gray-600 flex items-center justify-center cursor-pointer"
+                  onClick={(e) => optionHandler(e, item.albumId)}
+                >
+                  <PiDotsThreeOutlineVerticalFill size={25} />
+                </button>
+              )}
+              {/* Dropdown Menu */}
+              {activeAlbumId === item.albumId && (
+                <div
+                  ref={dropdownRef}
+                  className="absolute top-14 right-7 bg-white shadow-lg p-2 rounded z-10 text-sm"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => remaneHandler(item)}
+                  >
+                    Rename
+                  </button>
+
+                  <button
+                    className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => shareHandler(item?.albumId)}
+                  >
+                    Share
+                  </button>
+                  <button
+                    className="block w-full text-left px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => deleteHandler(item?.albumId)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
       {openSharedUserForm && (
         <div

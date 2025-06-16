@@ -22,7 +22,7 @@ const Photos = () => {
         </div>
         {allImages.length === 0 && (
           <div className="flex items-center justify-center flex-col pt-8">
-            <img src={NoImage} alt="" />
+            <img src={NoImage} alt="no-image" loading="lazy" />
             <p className="text-gray-900">Image added will show here!</p>
           </div>
         )}

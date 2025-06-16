@@ -19,13 +19,19 @@ const CommentPanel = ({
   useEffect(() => {
     dispatch(fetchComments(imageId));
   }, [dispatch, imageId]);
+  console.log(comments);
   const handlePostComment = async () => {
     if (!commentText.trim()) return;
     const comment = {
       comment: commentText,
     };
-    await dispatch(updateComment({ imageId, comment })).unwrap;
-    setCommentText(""); // Clear field after post
+    try {
+      await dispatch(updateComment({ imageId, comment })).unwrap();
+      await dispatch(fetchComments(imageId));
+      setCommentText(""); // Clear field after post
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
