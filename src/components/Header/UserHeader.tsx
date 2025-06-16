@@ -30,7 +30,7 @@ const UserHeader = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-60  backdrop-blur-md shadow-sm">
+    <div className="fixed top-0 left-0 w-full z-50  backdrop-blur-md shadow-sm">
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between py-1">
           {/* Logo Section */}
@@ -66,9 +66,9 @@ const UserHeader = () => {
 
             {/* Hover Tooltip */}
             {showDetails && !showUser && (
-              <div className="absolute -bottom-12 right-0 bg-black/70 text-white text-sm rounded-md py-1 px-3 whitespace-nowrap z-10">
+              <div className="absolute -bottom-12 right-0 bg-black/80 text-white text-sm rounded-md py-1 px-3 whitespace-nowrap z-10 flex flex-col">
                 <span>{user?.userName.toUpperCase()}</span>
-                <span className="ml-1">{user?.email}</span>
+                <span className="">{user?.email}</span>
               </div>
             )}
 

@@ -20,18 +20,22 @@ const ImageDisplay = () => {
   const navigate = useNavigate();
   const { imageId } = useParams();
   const dispatch = useAppDispatch();
-
-  const [showComments, setShowComments] = useState<boolean>(false);
-  const [showInfo, setShowInfo] = useState<boolean>(false);
-  const [favImg, setFavImg] = useState<boolean>(false);
-
   const { user } = useAppSelector((state) => state.auth);
   const { allImages } = useAppSelector((state) => state.image);
   const image = allImages.find((img) => img.imageId === imageId);
+  console.log(image);
+  const [showComments, setShowComments] = useState<boolean>(false);
+  const [showInfo, setShowInfo] = useState<boolean>(false);
+  const [favImg, setFavImg] = useState<boolean>(
+    image?.isFavorite ? true : false
+  );
 
   const favoriteHandler = async () => {
     const updatedFavoriteStatus = !favImg; // Toggle it manually
     setFavImg(updatedFavoriteStatus);
+    console.log("favimg", favImg);
+    console.log("updatedFavoriteStatus", updatedFavoriteStatus);
+
     const imageId = image?.imageId;
     const favorite = {
       isFavorite: updatedFavoriteStatus,

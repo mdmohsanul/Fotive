@@ -40,6 +40,7 @@ const ImageForm: React.FC<ImageProps> = ({ setOpenImageForm, albumId }) => {
   const handleUpload = async () => {
     setIsSubmitting(true);
     if (!image) {
+      setIsSubmitting(false);
       setMessage("Please select an image to upload");
       return;
     }
@@ -49,7 +50,7 @@ const ImageForm: React.FC<ImageProps> = ({ setOpenImageForm, albumId }) => {
     selectedTags.forEach((tag) => {
       formData.append("tags[]", tag); // or just "tags"
     });
-console.log(formData);
+
     try {
       await dispatch(uploadImage({ formData, albumId })).unwrap();
       await dispatch(fetchImages(albumId));
