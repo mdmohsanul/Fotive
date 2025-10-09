@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import FotiveSmall from "/test6.png";
 import Fotive from "/test5.png";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "@/features/auth/authThunks";

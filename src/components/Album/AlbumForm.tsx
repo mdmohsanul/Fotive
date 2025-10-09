@@ -22,7 +22,7 @@ type AlbumProps = {
 const AlbumForm: React.FC<AlbumProps> = ({ setOpenModal, existingData }) => {
   const dispatch = useAppDispatch();
   const [err, setErr] = useState<string | undefined>();
-  console.log(existingData);
+
   const albumId = existingData?.albumId;
   const {
     register,
@@ -38,14 +38,11 @@ const AlbumForm: React.FC<AlbumProps> = ({ setOpenModal, existingData }) => {
         setOpenModal(false); // close modal on success
         return;
       }
-      console.log("fcds");
-
       await dispatch(createAlbum(data)).unwrap();
       dispatch(fetchAlbums());
 
       setOpenModal(false); // close modal on success
     } catch (error) {
-      console.log(error);
       setErr(error as string);
     }
   };

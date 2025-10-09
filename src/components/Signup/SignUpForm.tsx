@@ -15,13 +15,16 @@ import type { SignupData } from "@/utils/signup-form-schema";
 import { useState } from "react";
 import { useAppDispatch } from "@/app/store";
 import { registerUser } from "@/features/auth/authThunks";
+import { Loader2 } from "lucide-react";
 
 type SignUpProps = {
   setShowPopup: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 export const SignUpForm: React.FC<SignUpProps> = ({ setShowPopup }) => {
   const dispatch = useAppDispatch();
   const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<SignupData>({
     resolver: zodResolver(signupSchema),
@@ -32,20 +35,24 @@ export const SignUpForm: React.FC<SignUpProps> = ({ setShowPopup }) => {
     },
   });
 
-  function onSubmit(values: SignupData) {
+  async function onSubmit(values: SignupData) {
+    setLoading(true);
     try {
-      dispatch(registerUser(values)).then((result) => {
-        if (result?.meta?.requestStatus === "rejected") {
-          setErr("Failed to Log In. Please try again.");
-        } else {
-          setShowPopup(true);
-        }
-      });
+      const result = await dispatch(registerUser(values));
+
+      if (result?.meta?.requestStatus === "rejected") {
+        setErr("Failed to Sign Up. Please try again.");
+      } else {
+        setShowPopup(true);
+      }
     } catch (error) {
-      console.log(error);
-      //setErr(error || "Failed to Log In. Please try again.");
+      console.error(error);
+      setErr("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
+
   return (
     <div>
       <Form {...form}>
@@ -91,13 +98,21 @@ export const SignUpForm: React.FC<SignUpProps> = ({ setShowPopup }) => {
           />
           <Button
             type="submit"
-            className="h-12 w-full rounded-full text-md cursor-pointer bg-gray-800 "
+            disabled={loading}
+            className="h-12 w-full rounded-full text-md cursor-pointer bg-gray-800 text-white hover:bg-gray-900 transition-colors duration-300"
           >
-            Sign Up
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Signing Up...
+              </>
+            ) : (
+              "Sign Up"
+            )}
           </Button>
         </form>
       </Form>
-      {err && <p>{err}</p>}
+      {err && <p className="text-red-500 text-sm mt-2">{err}</p>}
     </div>
   );
 };

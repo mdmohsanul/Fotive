@@ -7,18 +7,21 @@ import { loginWithGoogle } from "../features/auth/authThunks";
 import { useAppDispatch } from "../app/store";
 
 import { useLocation, useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 const GoogleProvider: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const from =
     (location.state as { from?: { pathname: string } })?.from?.pathname ||
     "/dashboard";
 
   const handleSuccess = async (authResult: CodeResponse) => {
+    setLoading(true);
     try {
       if (authResult.code) {
         const result = await dispatch(loginWithGoogle(authResult.code));
@@ -34,6 +37,8 @@ const GoogleProvider: React.FC = () => {
     } catch (error) {
       console.error("Google login failed", error);
       setErr("Something went wrong during login.");
+    } finally {
+      setLoading(false); // Always reset loading
     }
   };
 
@@ -56,10 +61,22 @@ const GoogleProvider: React.FC = () => {
   return (
     <div>
       <Button
-        onClick={() => googleLogin()}
+        onClick={() => {
+          setLoading(true);
+          googleLogin();
+        }}
+        disabled={loading}
         className="h-12 w-full rounded-full text-md cursor-pointer bg-white text-gray-900 border border-gray-800 hover:bg-gray-900 hover:text-white transition-colors duration-350"
       >
-        <ImGooglePlus3 size={35} className="size-7 " /> Sign in with Google
+        {loading ? (
+          <>
+            <Loader2 className="animate-spin" /> Signing In...
+          </>
+        ) : (
+          <>
+            <ImGooglePlus3 size={35} className="size-7 " /> Sign in with Google
+          </>
+        )}
       </Button>
 
       {/* <button onClick={() => googleLogin()}>Google Login</button> */}
